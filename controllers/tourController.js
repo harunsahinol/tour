@@ -4,6 +4,18 @@ const tours = JSON.parse(
   fs.readFileSync(`${__dirname}/../dev-data/data/tours-simple.json`)
 );
 
+exports.checkID = (req, res, next, val) => {
+  console.log(`Tour id is ${val}`);
+  const id = req.params.id * 1; // req.params.id is a string, so we need to convert it to a number
+  if (req.params.id * 1 > tours.length) {
+    return res.status(404).json({
+      status: "fail",
+      message: "Invalid ID",
+    });
+  }
+  next();
+};
+
 exports.getAllTours = (req, res) => {
   console.log(req.requestTime);
   res.status(200).json({
@@ -18,16 +30,6 @@ exports.getAllTours = (req, res) => {
 
 exports.getTour = (req, res) => {
   // :id is a url parameter and '?' makes it optional
-
-  const id = req.params.id * 1; // req.params.id is a string, so we need to convert it to a number
-
-  if (id > tours.length) {
-    // Here, it should be `tours.length`, not `tour.length`
-    return res.status(404).json({
-      status: "fail",
-      message: "Invalid ID",
-    });
-  }
 
   const tour = tours.find((el) => el.id === id); // find() returns the first element that satisfies the condition
 
@@ -62,13 +64,6 @@ exports.createTour = (req, res) => {
 };
 
 exports.updateTour = (req, res) => {
-  if (req.params.id * 1 > tours.length) {
-    return res.status(404).json({
-      status: "fail",
-      message: "Invalid ID",
-    });
-  }
-
   res.status(200).json({
     status: "success",
     data: {

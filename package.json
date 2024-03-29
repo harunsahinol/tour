@@ -6,9 +6,9 @@
   "name": "natours",
   "version": "1.0.0",
   "description": "Learning Node.js and MongoDB",
-  "main": "app.js",
+  "main": "server.js",
   "scripts": {
-    "start": "nodemon app.js -L"
+    "start": "nodemon server.js -L"
   },
   "author": "Harun Sahinol",
   "license": "MIT",
